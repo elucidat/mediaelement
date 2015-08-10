@@ -1,9 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html debug="true">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<title>HTML5 MediaElement</title>	
+	
+	<script src="firebug-lite/build/firebug-lite.js"></script>
+	
+	<script>
+	if (typeof window.console == 'undefined') {
+		window.console = {log:function() {}};
+	}	
+	</script>
 	
 	<script src="../build/jquery.js"></script>
 	
@@ -235,7 +243,7 @@ jQuery(document).ready(function() {
 		//usePluginFullScreen: true,
 		//mode: 'native',
 		//plugins: ['silverlight'],
-		features: ['playpause','progress','volume','speed','fullscreen'],
+		//features: ['playpause','progress','volume','speed','fullscreen'],
 		success: function(me,node) {
 			// report type
 			var tagName = node.tagName.toLowerCase();

@@ -177,7 +177,7 @@
 			
 			setTimeout(function() {
 				t.controls.find('.mejs-duration').html( 
-					mejs.Utility.secondsToTimeCode(newDuration, t.options.alwaysShowHours || newDuration > 3600, t.options.showTimecodeFrameCount,  t.options.framesPerSecond || 25)
+					mejs.Utility.secondsToTimeCode(newDuration, t.options)
 					);
 			}, 250);
 		},
@@ -193,8 +193,8 @@
 			t.hideControls();
 			
 			// enable clicking through
-			t.adsLayer.show();
 			if (t.options.adsPrerollAdUrl != '') {
+				t.adsLayer.show();
 				t.adsLayer.find('a').attr('href', t.options.adsPrerollAdUrl);
 			}
 			
