@@ -581,7 +581,7 @@
 	border-radius: 0;
 }
 
-.mejs-controls .mejs-captions-button:hover  .mejs-captions-selector {
+.mejs-controls .mejs-captions-button .mejs-captions-selector {
 	visibility: visible;
 }
 
@@ -589,6 +589,7 @@
 	margin: 0;
 	padding: 0;
 	display: block;
+	list-style-type: none !important;
 	list-style-type: none !important;
 	overflow: hidden;
 }
