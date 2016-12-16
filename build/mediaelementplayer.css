@@ -22,7 +22,6 @@
     	width: 100%;
     	height: 100%;
 }
-
 .mejs-fill-container{
     	overflow: hidden;
 }
@@ -580,7 +579,7 @@
 	border-radius: 0;
 }
 
-.mejs-controls .mejs-captions-button:hover  .mejs-captions-selector {
+.mejs-controls .mejs-captions-button .mejs-captions-selector {
 	visibility: visible;
 }
 
