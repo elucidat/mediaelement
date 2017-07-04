@@ -600,6 +600,10 @@ mejs.HtmlMediaElementShim = {
 						videoId = videoIdMatch[1];
 					}
 				}
+                // get the playersVars from the url so we can pass them to the youtube API
+                var playerVars = playback.url.substring(playback.url.indexOf('?') + 1);
+                playerVars = playerVars.replace("?", "&").split("&");
+                
 				youtubeSettings = {
 						container: container,
 						containerId: container.id,
@@ -608,7 +612,8 @@ mejs.HtmlMediaElementShim = {
 						videoId: videoId,
 						height: height,
 						width: width,
-                        scheme: playback.scheme
+                        scheme: playback.scheme,
+                        playerVars: playerVars
 					};				
 				
 				// favor iframe version of YouTube
@@ -798,17 +803,33 @@ mejs.YouTubeApi = {
 		}
 	},
 	createIframe: function(settings) {
-		
+        
+        // set the playersVars - these are default. 
+		var playerVars = {controls:0,wmode:'transparent'};
+        // if there are some playerVars - then we want to deal with them.
+        if(settings.playerVars) {
+            for(var i in settings.playerVars) {
+                if(typeof(settings.playerVars[i]) === 'string') {
+                    // a safety check - if it's a string then we know it's something
+                    // we want to use.
+                    var settingsPlayerVars = settings.playerVars[i].split('=');
+                    if(settingsPlayerVars) {
+                        // add them to the default settings.
+                        playerVars[settingsPlayerVars[0]] = settingsPlayerVars[1];
+                    }
+                }
+            }
+        }
+        
 		var
 		pluginMediaElement = settings.pluginMediaElement,	
 		player = new YT.Player(settings.containerId, {
 			height: settings.height,
 			width: settings.width,
 			videoId: settings.videoId,
-			playerVars: {controls:0,wmode:'transparent'},
+			playerVars: playerVars,
 			events: {
 				'onReady': function() {
-					
 					// wrapper to match
 					player.setVideoSize = function(width, height) {
 						player.setSize(width, height);
