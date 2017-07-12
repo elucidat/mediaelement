@@ -1496,6 +1496,10 @@ mejs.HtmlMediaElementShim = {
 						videoId = videoIdMatch[1];
 					}
 				}
+                
+                var playerVars = playback.url.substring(playback.url.indexOf('?') + 1);
+                playerVars = playerVars.replace("?", "&").split("&");
+                
 				youtubeSettings = {
 						container: container,
 						containerId: container.id,
@@ -1504,7 +1508,8 @@ mejs.HtmlMediaElementShim = {
 						videoId: videoId,
 						height: height,
 						width: width,
-                        scheme: playback.scheme
+                        scheme: playback.scheme,
+                        playerVars: playerVars
 					};				
 				
 				// favor iframe version of YouTube
@@ -1694,17 +1699,28 @@ mejs.YouTubeApi = {
 		}
 	},
 	createIframe: function(settings) {
-		
+		var playerVars = {controls:0,wmode:'transparent'};
+        
+        if(settings.playerVars) {
+            for(var i in settings.playerVars) {
+                if(typeof(settings.playerVars[i]) === 'string') {
+                    var settingsPlayerVars = settings.playerVars[i].split('=');
+                    if(settingsPlayerVars) {
+                        playerVars[settingsPlayerVars[0]] = settingsPlayerVars[1];
+                    }
+                }
+            }
+        }
+        
 		var
 		pluginMediaElement = settings.pluginMediaElement,	
 		player = new YT.Player(settings.containerId, {
 			height: settings.height,
 			width: settings.width,
 			videoId: settings.videoId,
-			playerVars: {controls:0,wmode:'transparent'},
+			playerVars: playerVars,
 			events: {
 				'onReady': function() {
-					
 					// wrapper to match
 					player.setVideoSize = function(width, height) {
 						player.setSize(width, height);
